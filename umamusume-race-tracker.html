@@ -85,7 +85,7 @@
   .empty{color:var(--muted);font-size:12px;padding:6px 0}
   .sort-ind{font-size:11px;color:var(--muted)}
 
-  .runner-photo{width:100%;height:200px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:#0f1016;cursor:pointer}
+  .uma-photo{width:100%;height:200px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:#0f1016;cursor:pointer}
   #photoDialog img{max-width:96vw;max-height:80vh;display:block}
   .good{color:#45d48a}.bad{color:#ff7a7a}
 
@@ -136,7 +136,7 @@
       <div class="info-grid">
         <div class="info-item">
           <h3>Photo</h3>
-          <img id="runnerPhoto" class="runner-photo" alt="Umamusume photo (click to enlarge)" />
+          <img id="umaPhoto" class="uma-photo" alt="Umamusume photo (click to enlarge)" />
           <div class="subtle" style="margin-top:6px">jpg or png. Click the photo to enlarge. Upload in <em>Edit Umamusume Details</em>.</div>
         </div>
         <div class="info-item"><h3>Pace Aptitude</h3><div id="infoPace">None</div></div>
@@ -162,7 +162,7 @@
         <button id="clearUmaData" class="bad">Clear Selected</button>
       </div>
       <input id="importFile" type="file" accept="application/json" hidden />
-      <p class="subtle">Data saves in your browser per runner.</p>
+      <p class="subtle">Data saves in your browser per Umamusume.</p>
     </div>
   </section>
 
@@ -694,7 +694,7 @@ const filterSurfaces=document.getElementById("filterSurfaces");
 const raceResults=document.getElementById("raceResults");
 const selectedRaces=document.getElementById("selectedRaces");
 /* info panel + dialogs */
-const runnerPhotoEl=document.getElementById("runnerPhoto");
+const umaPhotoEl=document.getElementById("umaPhoto");
 const photoDialog=document.getElementById("photoDialog");
 const photoLarge=document.getElementById("photoLarge");
 const photoClose=document.getElementById("photoClose");
@@ -847,7 +847,7 @@ function buildCrownUI(){
 }
 
 /* ===== Photo lightbox ===== */
-runnerPhotoEl.addEventListener("click",()=>{const u=state.currentUma;if(!u)return;const src=state.umaList[u].info.photo;if(!src)return;photoLarge.src=src; (photoDialog.showModal?photoDialog.showModal():photoDialog.setAttribute('open','open'));});
+umaPhotoEl.addEventListener("click",()=>{const u=state.currentUma;if(!u)return;const src=state.umaList[u].info.photo;if(!src)return;photoLarge.src=src; (photoDialog.showModal?photoDialog.showModal():photoDialog.setAttribute('open','open'));});
 photoClose.onclick=()=> (photoDialog.close?photoDialog.close():photoDialog.removeAttribute('open'));
 
 /* ===== Details editor ===== */
@@ -1045,8 +1045,8 @@ function render(){
 
   const inf=state.umaList[state.currentUma].info||blankInfo();
 
-  if(inf.photo){runnerPhotoEl.src=inf.photo;runnerPhotoEl.style.display="block";}
-  else{runnerPhotoEl.removeAttribute("src");runnerPhotoEl.style.display="none";}
+  if(inf.photo){umaPhotoEl.src=inf.photo;umaPhotoEl.style.display="block";}
+  else{umaPhotoEl.removeAttribute("src");umaPhotoEl.style.display="none";}
 
   document.getElementById("infoPace").textContent=(inf.pace&&inf.pace.length)?inf.pace.join(" / "):"None";
   document.getElementById("infoTrack").textContent=`Turf ${inf.track.turf}, Dirt ${inf.track.dirt}`;
