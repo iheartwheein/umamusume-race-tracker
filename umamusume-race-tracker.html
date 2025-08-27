@@ -110,18 +110,18 @@
 </head>
 <body>
 <header>
-  <h1>Umamusume Race Tracker</h1>
+  <h1>Umamusume race tracker</h1>
   <div class="controls">
     <div class="ctrl">
       <span class="label">Umamusume</span>
       <select id="umaSelect"></select>
     </div>
     <div class="ctrl grow">
-      <span class="label">Quick Search</span>
+      <span class="label">Quick search</span>
       <input id="searchBox" placeholder="Search race, month, year" />
     </div>
     <div class="ctrl" style="align-items:flex-start">
-      <button id="clearFilters">Clear Filters</button>
+      <button id="clearFilters">Clear filters</button>
     </div>
   </div>
 </header>
@@ -129,35 +129,35 @@
 <div class="wrap">
   <!-- Left -->
   <section class="panel">
-    <h2>Umamusume Details</h2>
+    <h2>Umamusume details</h2>
     <div class="body">
       <div class="info-grid">
         <div class="info-item">
           <h3>Photo</h3>
           <img id="umaPhoto" class="uma-photo" alt="Umamusume photo (click to enlarge)" />
-          <div class="subtle" style="margin-top:6px">jpg or png. Click the photo to enlarge. Upload in <em>Edit Umamusume Details</em>.</div>
+          <div class="subtle" style="margin-top:6px">JPG or PNG. Click the photo to enlarge. Upload in <em>Edit Umamusume details</em>.</div>
         </div>
-        <div class="info-item"><h3>Pace Aptitude</h3><div id="infoPace">None</div></div>
-        <div class="info-item"><h3>Track Aptitude</h3><div id="infoTrack">None</div></div>
-        <div class="info-item"><h3>Distance Aptitude</h3><div id="infoAptitude">None</div></div>
+        <div class="info-item"><h3>Pace aptitude</h3><div id="infoPace">None</div></div>
+        <div class="info-item"><h3>Track aptitude</h3><div id="infoTrack">None</div></div>
+        <div class="info-item"><h3>Distance aptitude</h3><div id="infoAptitude">None</div></div>
         <div class="info-item">
-          <h3>Recommended Support Cards <span class="subtle">(6 total)</span></h3>
+          <h3>Recommended support cards <span class="subtle">(6 total)</span></h3>
           <ul id="infoSupports" class="list"><li>None</li></ul>
-          <div id="supportsWarn" class="warn-text" style="margin-top:6px;display:none">Exactly 6 cards are required. Open <em>Edit Umamusume Details</em>.</div>
+          <div id="supportsWarn" class="warn-text" style="margin-top:6px;display:none">Exactly 6 cards are required. Open <em>Edit Umamusume details</em>.</div>
         </div>
-        <div class="info-item"><h3>Alternative Support Cards</h3><ul id="infoAltSupports" class="list"><li>None</li></ul></div>
-        <div class="info-item"><h3>Support Deck Notes</h3><div id="infoDeckNote">None</div></div>
-        <div class="info-item"><h3>Recommended Skills</h3><ul id="infoSkills" class="list"><li>None</li></ul></div>
+        <div class="info-item"><h3>Alternative support cards</h3><ul id="infoAltSupports" class="list"><li>None</li></ul></div>
+        <div class="info-item"><h3>Support deck notes</h3><div id="infoDeckNote">None</div></div>
+        <div class="info-item"><h3>Recommended skills</h3><ul id="infoSkills" class="list"><li>None</li></ul></div>
       </div>
-      <div class="row" style="margin-top:10px"><button id="editInfoBtn">Edit Umamusume Details</button></div>
+      <div class="row" style="margin-top:10px"><button id="editInfoBtn">Edit Umamusume details</button></div>
     </div>
 
     <h2>Data</h2>
     <div class="body">
       <div class="row">
-        <button id="exportJson">Export Progress</button>
-        <button id="importJsonBtn">Import Progress</button>
-        <button id="clearUmaData" class="bad">Clear Selected</button>
+        <button id="exportJson">Export progress</button>
+        <button id="importJsonBtn">Import progress</button>
+        <button id="clearUmaData" class="bad">Clear selected</button>
       </div>
       <input id="importFile" type="file" accept="application/json" hidden />
       <p class="subtle">Data saves in your browser per Umamusume.</p>
@@ -177,7 +177,7 @@
               <div class="checkgroup" id="dashView">
                 <label><input type="radio" name="view" value="recommended" checked> Recommended</label>
                 <label><input type="radio" name="view" value="mandatory"> Mandatory</label>
-                <label><input type="radio" name="view" value="all"> All Races</label>
+                <label><input type="radio" name="view" value="all"> All races</label>
                 <label><input type="radio" name="view" value="calendar"> Calendar</label>
               </div>
             </div>
@@ -191,7 +191,7 @@
               </div>
             </div>
             <div>
-              <div class="subtle">TRACK</div>
+              <div class="subtle">Track</div>
               <div class="checkgroup" id="dashTracks">
                 <label><input type="checkbox" value="Turf"> Turf</label>
                 <label><input type="checkbox" value="Dirt"> Dirt</label>
@@ -217,12 +217,12 @@
             <div>
               <div class="subtle">Participation</div>
               <div class="checkgroup">
-                <label><input type="checkbox" id="showParticipated"> All Participated Races</label>
+                <label><input type="checkbox" id="showParticipated"> All participated races</label>
               </div>
             </div>
           </div>
           <div class="tools-actions">
-            <button id="clearEligibility">Clear Tag Filter</button>
+            <button id="clearEligibility">Clear tag filter</button>
             <span class="subtle">This also turns off any tag based filtering.</span>
           </div>
         </div>
@@ -230,17 +230,17 @@
         <div class="toolbox">
           <h3>Recommendations</h3>
           <div class="tools-actions">
-            <button id="editRecsBtn">Edit Recommended</button>
-            <button id="editMandatoryBtn">Edit Mandatory</button>
+            <button id="editRecsBtn">Edit recommended</button>
+            <button id="editMandatoryBtn">Edit mandatory</button>
           </div>
 
-          <div class="tmpl-title">Crown Titles</div>
+          <div class="tmpl-title">Crown titles</div>
           <div id="crownList" class="tmpl-items"></div>
         </div>
       </div>
 
       <div class="stats">
-        <div class="card"><strong id="statTotal">0</strong>Total Races</div>
+        <div class="card"><strong id="statTotal">0</strong>Total races</div>
         <div class="card"><strong id="statWins" class="good">0</strong>Wins</div>
         <div class="card"><strong id="statLosses" class="bad">0</strong>Losses</div>
         <div class="card">
@@ -250,7 +250,7 @@
             <span class="chip"><span class="dot loss"></span>Loss</span>
           </div>
           <div class="row" style="margin-top:8px;margin-bottom:0">
-            <button id="resetMarks">Reset Marks</button>
+            <button id="resetMarks">Reset marks</button>
           </div>
         </div>
       </div>
@@ -270,7 +270,7 @@
         </thead>
         <tbody></tbody>
       </table>
-      <p id="tableHelp" class="subtle" style="margin-top:8px">Click the Race or Year header to sort. Click again to toggle direction.</p>
+      <p id="tableHelp" class="subtle" style="margin-top:8px">Click the race or year header to sort. Click again to toggle direction.</p>
 
       <div id="calendarWrap" class="calendar" style="display:none"></div>
       <p id="calHelp" class="subtle" style="margin-top:8px;display:none">Click a race title to add it to Recommended or Mandatory.</p>
@@ -278,9 +278,9 @@
   </section>
 </div>
 
-<!-- Editor for Recommended / Mandatory -->
+<!-- Editor for recommended / mandatory -->
 <dialog id="recEditor">
-  <header><strong id="editorTitle">Edit Recommended Races</strong></header>
+  <header><strong id="editorTitle">Edit recommended races</strong></header>
   <div class="body">
     <div class="filters" style="align-items:flex-end">
       <label style="flex:2;min-width:220px">Search<br/><input id="raceSearch" placeholder="Search name or month" /></label>
@@ -296,7 +296,7 @@
         <label><input type="checkbox" value="Medium"> Medium</label>
         <label><input type="checkbox" value="Long"> Long</label>
       </div></div>
-      <div><div class="subtle">TRACK</div><div class="checkgroup" id="filterTracks">
+      <div><div class="subtle">Track</div><div class="checkgroup" id="filterTracks">
         <label><input type="checkbox" value="Turf"> Turf</label>
         <label><input type="checkbox" value="Dirt"> Dirt</label>
       </div></div>
@@ -315,39 +315,39 @@
 
 <!-- Photo lightbox -->
 <dialog id="photoDialog">
-  <header><strong>Umamusume Photo</strong></header>
+  <header><strong>Umamusume photo</strong></header>
   <div class="body">
     <img id="photoLarge" alt="Umamusume photo" />
     <div class="row" style="margin-top:10px"><button id="photoClose">Close</button></div>
   </div>
 </dialog>
 
-<!-- FULL Umamusume Details editor -->
+<!-- Full Umamusume details editor -->
 <dialog id="infoEditor">
-  <header><strong>Edit Umamusume Details</strong></header>
+  <header><strong>Edit Umamusume details</strong></header>
   <div class="body">
     <div class="editor-section">
       <h4>Photo</h4>
       <div class="row">
         <input id="photoInput" type="file" accept="image/*" />
-        <button id="photoRemoveBtn" class="iconbtn">Remove Photo</button>
+        <button id="photoRemoveBtn" class="iconbtn">Remove photo</button>
       </div>
       <div class="mini">Photo saves as soon as you pick a file.</div>
     </div>
 
     <div class="editor-section">
-      <h4>Pace Aptitude</h4>
+      <h4>Pace aptitude</h4>
       <div class="checkgroup" id="editPace">
         <label><input type="checkbox" value="Front Runner"> Front Runner</label>
         <label><input type="checkbox" value="Pace Chaser"> Pace Chaser</label>
         <label><input type="checkbox" value="Late Surger"> Late Surger</label>
         <label><input type="checkbox" value="End Closer"> End Closer</label>
       </div>
-      <div class="mini">You can select multiple. Pace is not used to filter Recommended.</div>
+      <div class="mini">You can select multiple. Pace is not used to filter recommended.</div>
     </div>
 
     <div class="editor-section">
-      <h4>Track Aptitude</h4>
+      <h4>Track aptitude</h4>
       <div class="grid-2">
         <label>Turf
           <select id="editTurf"></select>
@@ -359,7 +359,7 @@
     </div>
 
     <div class="editor-section">
-      <h4>Distance Aptitude</h4>
+      <h4>Distance aptitude</h4>
       <div class="grid-4">
         <label>Sprint
           <select id="editSprint"></select>
@@ -377,24 +377,24 @@
     </div>
 
     <div class="editor-section">
-      <h4>Recommended Support Cards <span class="mini">(exactly 6)</span></h4>
+      <h4>Recommended support cards <span class="mini">(exactly 6)</span></h4>
       <div id="editSupports"></div>
     </div>
 
     <div class="editor-section">
-      <h4>Alternative Support Cards</h4>
+      <h4>Alternative support cards</h4>
       <div id="editAltSupports"></div>
-      <div class="row"><button id="addAltSupport" class="iconbtn">+ Add Alternative</button></div>
+      <div class="row"><button id="addAltSupport" class="iconbtn">+ Add alternative</button></div>
     </div>
 
     <div class="editor-section">
-      <h4>Recommended Skills</h4>
+      <h4>Recommended skills</h4>
       <div id="editSkills"></div>
-      <div class="row"><button id="addSkill" class="iconbtn">+ Add Skill</button></div>
+      <div class="row"><button id="addSkill" class="iconbtn">+ Add skill</button></div>
     </div>
 
     <div class="editor-section">
-      <h4>Support Deck Notes</h4>
+      <h4>Support deck notes</h4>
       <textarea id="editDeckNote" rows="4" placeholder="Notes about deck composition, variations, and reasoning"></textarea>
     </div>
 
@@ -407,7 +407,7 @@
 
 <!-- Add-to-list chooser -->
 <dialog id="addToListDialog">
-  <header><strong id="addTitle">Add Race</strong></header>
+  <header><strong id="addTitle">Add race</strong></header>
   <div class="body">
     <div id="addRaceMeta" class="subtle"></div>
     <div class="row" style="margin-top:10px">
@@ -419,16 +419,8 @@
 </dialog>
 
 <script>
-/* ===== RACE DATA =====
-   Game8-aligned names and fixes:
-   - All “Nisai” -> “Junior”
-   - Added: Hakodate Junior Stakes, Saudi Arabia Royal Cup, Kyoto Junior Stakes, Mainichi Hai
-   - Mermaid Stakes (Classic) = Medium
-   - Keio Hai Junior Stakes = Sprint
-   - Niigata Junior Stakes = Medium, Late Aug
-   - Date tweaks: Artemis = Late Oct, Tokyo Sports Hai Junior = Late Nov, Asahi Hai Futurity = Early Dec
-   - Spelling: Copa Republica Argentina (no accent)
-   Important: property is now 'track' instead of 'surface'
+/* ===== Race data =====
+   Game8-aligned names and fixes.
 */
 const RACES_JUNIOR = [
   {date:'Late Jul',  year:'Junior', name:'Hakodate Junior Stakes',        grade:'G3', distance:'Sprint', track:'Turf'},
@@ -626,7 +618,7 @@ const RACES_SENIOR = [
 
 const RACES=[...RACES_JUNIOR,...RACES_CLASSIC,...RACES_SENIOR];
 
-/* ===== Crown Titles ===== */
+/* ===== Crown titles ===== */
 const CROWNS = [
   {id:'classic_triple', title:'Classic Triple Crown', keys:[
     "Classic__Early Apr__Satsuki Sho",
@@ -673,7 +665,7 @@ function blankInfo(){return{
   pace:[], track:{turf:"A",dirt:"A"}, distance:{sprint:"A",mile:"A",medium:"A",long:"A"},
   supports:[], altSupports:[], deckNote:"", skills:[], focusKeys:[]
 };}
-const state={umaList:loadUmaList(), currentUma:null, view:"recommended", sortKey:null, sortDir:1};
+const state={umaList:loadUmaList(), currentUma:null, view:"recommended", sortKey:"year", sortDir:1};
 function loadUmaList(){
   const raw=localStorage.getItem("umamusume.umalist"); let list=raw?JSON.parse(raw):{};
   if(!raw || Object.keys(list).length===0){ list={}; for(const n of DEFAULT_UMA){ list[n]={results:{},tags:"",recommended:[],info:blankInfo()}; } localStorage.setItem("umamusume.umalist",JSON.stringify(list));}
@@ -699,7 +691,7 @@ function textMatch(r,q){return (`${r.year} ${r.date} ${r.name} ${r.grade} ${r.di
 function getCheckedValues(el){return [...el.querySelectorAll("input:checked")].map(cb=>cb.value);}
 
 /* ===== Aptitude-driven recommendation logic =====
-   Only TRACK and Distance are used. Pace is ignored.
+   Only track and distance are used. Pace is ignored.
 */
 const GOOD_RANKS=new Set(['S','A']);
 function matchesAptitudes(r, info){
@@ -708,7 +700,7 @@ function matchesAptitudes(r, info){
     (r.track==='Dirt' && GOOD_RANKS.has((info.track?.dirt||'A').toUpperCase()));
   if(!trackOK) return false;
 
-  const distKey = r.distance.toLowerCase(); // 'sprint' | 'mile' | 'medium' | 'long'
+  const distKey = r.distance.toLowerCase(); // sprint | mile | medium | long
   const distRank = (info.distance?.[distKey]||'A').toUpperCase();
   return GOOD_RANKS.has(distRank);
 }
@@ -774,7 +766,7 @@ let infoEditUma = null;
 function closeDialog(d){ if(d?.close) d.close(); else d.removeAttribute('open'); }
 function confirmDiscardAndClose() {
   if (!infoEditor.open) return;
-  if (confirm('Discard changes to Umamusume Details and close?')) {
+  if (confirm('Discard changes to Umamusume details and close?')) {
     if (infoEditUma && infoEditBackup) {
       state.umaList[infoEditUma].info = JSON.parse(JSON.stringify(infoEditBackup));
       saveUmaList();
@@ -803,13 +795,20 @@ clearFiltersBtn.onclick=()=>{
 };
 thName.addEventListener("click",()=>toggleSort("name"));
 thYear.addEventListener("click",()=>toggleSort("year"));
-function toggleSort(key){if(state.sortKey===key){state.sortDir=-state.sortDir;}else{state.sortKey=key;state.sortDir=1;}updateSortIndicators();render();}
-function clearSort(){state.sortKey=null;state.sortDir=1;updateSortIndicators();}
-function updateSortIndicators(){sortNameInd.textContent=(state.sortKey==="name"?(state.sortDir>0?"▲":"▼"):"");sortYearInd.textContent=(state.sortKey==="year"?(state.sortDir>0?"▲":"▼"):"");}
+function toggleSort(key){
+  if(state.sortKey===key){state.sortDir=-state.sortDir;}
+  else{state.sortKey=key;state.sortDir=1;}
+  updateSortIndicators();render();
+}
+function clearSort(){state.sortKey="year";state.sortDir=1;updateSortIndicators();}
+function updateSortIndicators(){
+  sortNameInd.textContent=(state.sortKey==="name"?(state.sortDir>0?"▲":"▼"):"");
+  sortYearInd.textContent=(state.sortKey==="year"?(state.sortDir>0?"▲":"▼"):"");
+}
 
 /* ===== Export/Import/Clear ===== */
 document.getElementById("exportJson").onclick=()=>{
-  const data={version:31,umaList:state.umaList};
+  const data={version:33,umaList:state.umaList};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="umamusume_race_progress.json";a.click();
 };
@@ -830,7 +829,7 @@ document.getElementById("clearUmaData").onclick=()=>{
 };
 document.getElementById("resetMarks").onclick=()=>{
   const u=state.currentUma;if(!u)return;
-  if(confirm("Reset all Win and Loss marks for "+u+"?")){
+  if(confirm("Reset all win and loss marks for "+u+"?")){
     state.umaList[u].results={};saveUmaList();render();
   }
 };
@@ -850,7 +849,7 @@ recSave.onclick=()=>{
   render();
 };
 function openEditor(mode){
-  editorMode=mode; editorTitle.textContent=(mode==="recommended")?"Edit Recommended Races":"Edit Mandatory Races";
+  editorMode=mode; editorTitle.textContent=(mode==="recommended")?"Edit recommended races":"Edit mandatory races";
   const u=state.currentUma;if(!u)return;
   raceSearch.value="";filterYear.value="";
   [...filterGrades.querySelectorAll("input")].forEach(cb=>cb.checked=false);
@@ -859,7 +858,7 @@ function openEditor(mode){
 
   selectedRaces.innerHTML="";
   const keys=(mode==="recommended")?(state.umaList[u].info.recommendedKeys||[]):(state.umaList[u].info.mandatoryKeys||[]);
-  const sortedSel=keys.map(findRaceByKey).filter(Boolean).sort(sortByCalendar);
+  const sortedSel=keys.map(findRaceByKey).filter(Boolean).sort((a,b)=>sortByYearThenCalendar(a,b,1));
   if(sortedSel.length===0){selectedRaces.innerHTML=`<div class="empty">No races selected.</div>`;} else {for(const r of sortedSel) appendSelected(r);}
   renderRaceResults(); (recEditor.showModal?recEditor.showModal():recEditor.setAttribute('open','open'));
 }
@@ -870,7 +869,7 @@ function renderRaceResults(){
   let list=RACES.filter(r =>
     (!y || r.year===y) && (!gs.length || gs.includes(r.grade)) && (!ds.length || ds.includes(r.distance)) &&
     (!ts.length || ts.includes(r.track)) && (!q || textMatch(r,q)) && !selectedKeys.has(raceKey(r))
-  ).sort(sortByCalendar);
+  ).sort((a,b)=>sortByYearThenCalendar(a,b,1));
   raceResults.innerHTML=""; if(list.length===0){raceResults.innerHTML=`<div class="empty">No matches.</div>`;return;}
   for(const r of list){
     const div=document.createElement("div"); div.className="item";
@@ -890,12 +889,12 @@ filterGrades.addEventListener("change",renderRaceResults);
 filterDistances.addEventListener("change",renderRaceResults);
 filterTracks.addEventListener("change",renderRaceResults);
 
-/* ===== Crown Titles UI ===== */
+/* ===== Crown titles UI ===== */
 function buildCrownUI(){
   crownList.innerHTML=""; const u=state.currentUma;if(!u)return;
   const focusSet=new Set(state.umaList[u].info.focusKeys||[]);
   CROWNS.forEach(c=>{
-    const keys=c.keys.filter(validKey); // ensure only valid keys
+    const keys=c.keys.filter(validKey);
     const allOn=keys.length>0 && keys.every(k=>focusSet.has(k));
     const someOn=!allOn && keys.some(k=>focusSet.has(k));
     const label=document.createElement("label"); const id="crown_"+c.id;
@@ -1068,7 +1067,7 @@ photoRemoveBtn?.addEventListener("click", ()=>{
   state.umaList[u].info.photo=null; saveUmaList(); render();
 });
 
-/* Add to Rec/Mand from All view and Calendar */
+/* Add to recommended/mandatory from All view and Calendar */
 function addRaceTo(listType, key){
   if(!validKey(key)) return;
   const u=state.currentUma; if(!u) return;
@@ -1121,13 +1120,10 @@ function setView(v){
 }
 
 function buildRecommendedBase(inf){
-  // aptitude matches: TRACK + Distance only
   const aptitudeSet = new Set(
     RACES.filter(r=>matchesAptitudes(r, inf)).map(r=>raceKey(r))
   );
-  // manual picks
   const manual = new Set((inf.recommendedKeys||[]).filter(validKey));
-  // union
   return RACES.filter(r=> aptitudeSet.has(raceKey(r)) || manual.has(raceKey(r)));
 }
 
@@ -1150,7 +1146,6 @@ function render(){
   document.getElementById("infoDeckNote").textContent=inf.deckNote||"None";
   renderList(document.getElementById("infoSkills"), inf.skills||[]);
 
-  // Base list depending on view and participation toggle
   let base=RACES.slice();
   const results=state.umaList[state.currentUma].results||{};
 
@@ -1161,7 +1156,7 @@ function render(){
   } else {
     if(state.view==="recommended"){
       base = buildRecommendedBase(inf);
-      viewBadge.textContent = "Recommended (Aptitude)";
+      viewBadge.textContent = "Recommended (aptitude)";
     } else if(state.view==="mandatory"){
       base = (inf.mandatoryKeys||[]).length ? RACES.filter(r=>inf.mandatoryKeys.includes(raceKey(r))) : [];
       viewBadge.textContent = "Mandatory";
@@ -1183,7 +1178,6 @@ function render(){
     (!q || textMatch(r,q))
   );
 
-  // stats
   let wins=0, losses=0;
   for(const r of view){
     const res=results[raceKey(r)]||"";
@@ -1191,7 +1185,6 @@ function render(){
   }
   statTotal.textContent=view.length; statWins.textContent=wins; statLosses.textContent=losses;
 
-  // Render table or calendar
   if(state.view==='calendar'){
     raceTable.style.display='none';
     tableHelp.style.display='none';
@@ -1211,12 +1204,14 @@ function render(){
 
 function renderTable(view, results, inf){
   const focusSet=new Set((inf.focusKeys||[]).filter(validKey));
-  const uniqueYears=new Set(view.map(r=>r.year));
-  if(uniqueYears.size===1 && state.sortKey==='year'){state.sortKey=null;state.sortDir=1;updateSortIndicators();}
 
-  if(state.sortKey==='name') view.sort((a,b)=> state.sortDir * a.name.localeCompare(b.name));
-  else if(state.sortKey==='year') view.sort((a,b)=> sortByYearThenCalendar(a,b,state.sortDir));
-  else view.sort(sortByCalendar);
+  // Sorting: default and “year” key → by year then calendar; “name” → by name with dir.
+  if(state.sortKey==='name'){
+    view.sort((a,b)=> state.sortDir * a.name.localeCompare(b.name));
+  }else{
+    const dir = (state.sortKey==='year') ? state.sortDir : 1; // default to Year ↑ when not explicitly sorting by name
+    view.sort((a,b)=> sortByYearThenCalendar(a,b,dir));
+  }
 
   raceTBody.innerHTML="";
   for(const r of view){
@@ -1267,7 +1262,7 @@ function renderTable(view, results, inf){
 function renderCalendar(view, results, inf){
   const byMonth = Array.from({length:12}, ()=>[]);
   view.forEach(r=>{ const m=parseDateStr(r.date).m; if(m>=0) byMonth[m].push(r); });
-  byMonth.forEach(list=> list.sort(sortByCalendar));
+  byMonth.forEach(list=> list.sort((a,b)=> sortByYearThenCalendar(a,b,1))); // Year ↑ inside each month
 
   const focusSet=new Set((inf.focusKeys||[]).filter(validKey));
   calendarWrap.innerHTML="";
