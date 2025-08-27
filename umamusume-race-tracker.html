@@ -135,8 +135,8 @@
       <div class="info-grid">
         <div class="info-item">
           <h3>Photo</h3>
-          <img id="runnerPhoto" class="runner-photo" alt="Runner photo (click to enlarge)" />
-          <div class="subtle" style="margin-top:6px">jpg or png. Click the photo to enlarge. Upload in Edit Runner Info.</div>
+          <img id="runnerPhoto" class="runner-photo" alt="Umamusume photo (click to enlarge)" />
+          <div class="subtle" style="margin-top:6px">jpg or png. Click the photo to enlarge. Upload in <em>Edit Umamusume Details</em>.</div>
         </div>
         <div class="info-item"><h3>Pace Aptitude</h3><div id="infoPace">None</div></div>
         <div class="info-item"><h3>Track Aptitude</h3><div id="infoTrack">None</div></div>
@@ -144,13 +144,13 @@
         <div class="info-item">
           <h3>Recommended Support Cards <span class="subtle">(6 total)</span></h3>
           <ul id="infoSupports" class="list"><li>None</li></ul>
-          <div id="supportsWarn" class="warn-text" style="margin-top:6px;display:none">Exactly 6 cards are required. Open Edit Runner Info.</div>
+          <div id="supportsWarn" class="warn-text" style="margin-top:6px;display:none">Exactly 6 cards are required. Open <em>Edit Umamusume Details</em>.</div>
         </div>
         <div class="info-item"><h3>Alternative Support Cards</h3><ul id="infoAltSupports" class="list"><li>None</li></ul></div>
         <div class="info-item"><h3>Support Deck Notes</h3><div id="infoDeckNote">None</div></div>
         <div class="info-item"><h3>Recommended Skills</h3><ul id="infoSkills" class="list"><li>None</li></ul></div>
       </div>
-      <div class="row" style="margin-top:10px"><button id="editInfoBtn">Edit Runner Info</button></div>
+      <div class="row" style="margin-top:10px"><button id="editInfoBtn">Edit Umamusume Details</button></div>
     </div>
 
     <h2>Data</h2>
@@ -297,16 +297,16 @@
 
 <!-- Photo lightbox -->
 <dialog id="photoDialog">
-  <header><strong>Runner Photo</strong></header>
+  <header><strong>Umamusume Photo</strong></header>
   <div class="body">
-    <img id="photoLarge" alt="Runner photo" />
+    <img id="photoLarge" alt="Umamusume photo" />
     <div class="row" style="margin-top:10px"><button id="photoClose">Close</button></div>
   </div>
 </dialog>
 
-<!-- FULL Runner Info editor -->
+<!-- FULL Umamusume Details editor -->
 <dialog id="infoEditor">
-  <header><strong>Edit Runner Info</strong></header>
+  <header><strong>Edit Umamusume Details</strong></header>
   <div class="body">
     <div class="editor-section">
       <h4>Photo</h4>
@@ -388,7 +388,7 @@
 </dialog>
 
 <script>
-/* ===== RACE DATA (unchanged) ===== */
+/* ===== RACE DATA ===== */
 const RACES_JUNIOR = [
   {date:'Early Aug', year:'Junior', name:'Niigata Nisai Stakes',           grade:'G3', distance:'Mile',   surface:'Turf'},
   {date:'Late Aug',  year:'Junior', name:'Sapporo Nisai Stakes',           grade:'G3', distance:'Mile',   surface:'Turf'},
@@ -402,12 +402,184 @@ const RACES_JUNIOR = [
   {date:'Mid Dec',   year:'Junior', name:'Asahi Hai Futurity Stakes',      grade:'G1', distance:'Mile',   surface:'Turf'},
   {date:'Late Dec',  year:'Junior', name:'Hopeful Stakes',                 grade:'G1', distance:'Medium', surface:'Turf'}
 ];
-const RACES_CLASSIC = [/* truncated for brevity in this block – kept identical to previous message */];
-const RACES_SENIOR  = [/* truncated for brevity in this block – kept identical to previous message */];
-/* (Paste the full Classic and Senior arrays you already have; omitted here only to shorten this message.) */
-const RACES=[...RACES_JUNIOR,...RACES_CLASSIC,...RACES_SENIOR];
+const RACES_CLASSIC = [
+  {date:'Early Jan', year:'Classic', name:'Shinzan Kinen',             grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Jan', year:'Classic', name:'Fairy Stakes',              grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Jan', year:'Classic', name:'Keisei Hai',                grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Feb', year:'Classic', name:'Kisaragi Sho',              grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Feb', year:'Classic', name:'Queen Cup',                 grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Feb', year:'Classic', name:'Kyodo News Hai',            grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Mar', year:'Classic', name:'Yayoi Sho',                 grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Early Mar', year:'Classic', name:'Fillies’ Revue',            grade:'G2', distance:'Sprint', surface:'Turf'},
+  {date:'Early Mar', year:'Classic', name:'Tulip Sho',                 grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Late Mar',  year:'Classic', name:'Spring Stakes',             grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Late Mar',  year:'Classic', name:'Falcon Stakes',             grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Late Mar',  year:'Classic', name:'Flower Cup',                grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Apr', year:'Classic', name:'Satsuki Sho',               grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Early Apr', year:'Classic', name:'Oka Sho',                   grade:'G1', distance:'Mile',   surface:'Turf'},
+  {date:'Early Apr', year:'Classic', name:'New Zealand Trophy',        grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Early Apr', year:'Classic', name:'Arlington Cup',             grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Apr',  year:'Classic', name:'Flora Stakes',              grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Late Apr',  year:'Classic', name:'Aoba Sho',                  grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Early May', year:'Classic', name:'NHK Mile Cup',              grade:'G1', distance:'Mile',   surface:'Turf'},
+  {date:'Early May', year:'Classic', name:'Kyoto Shimbun Hai',         grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Late May',  year:'Classic', name:'Tokyo Yushun (Derby)',      grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Late May',  year:'Classic', name:'Japanese Oaks',             grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Late May',  year:'Classic', name:'Aoi Stakes',                grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Jun', year:'Classic', name:'Yasuda Kinen',              grade:'G1', distance:'Mile',   surface:'Turf'},
+  {date:'Early Jun', year:'Classic', name:'Epsom Cup',                 grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Jun', year:'Classic', name:'Naruo Kinen',               grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Jun', year:'Classic', name:'Mermaid Stakes',            grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Late Jun',  year:'Classic', name:'Takarazuka Kinen',          grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Late Jun',  year:'Classic', name:'Unicorn Stakes',            grade:'G3', distance:'Mile',   surface:'Dirt'},
+  {date:'Late Jun',  year:'Classic', name:'Hakodate Sprint Stakes',    grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Jul', year:'Classic', name:'Japan Dirt Derby',          grade:'G1', distance:'Medium', surface:'Dirt'},
+  {date:'Early Jul', year:'Classic', name:'Radio Nikkei Sho',          grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Jul', year:'Classic', name:'CBC Sho',                   grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Jul', year:'Classic', name:'Procyon Stakes',            grade:'G3', distance:'Sprint', surface:'Dirt'},
+  {date:'Mid Jul',   year:'Classic', name:'Tanabata Sho',              grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Mid Jul',   year:'Classic', name:'Hakodate Kinen',            grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Late Jul',  year:'Classic', name:'Queen Stakes',              grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Jul',  year:'Classic', name:'Chukyo Kinen',              grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Jul',  year:'Classic', name:'Ibis Summer Dash',          grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Aug', year:'Classic', name:'Leopard Stakes',            grade:'G3', distance:'Mile',   surface:'Dirt'},
+  {date:'Early Aug', year:'Classic', name:'Kokura Kinen',              grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Mid Aug',   year:'Classic', name:'Sekiya Kinen',              grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Mid Aug',   year:'Classic', name:'Elm Stakes',                grade:'G3', distance:'Mile',   surface:'Dirt'},
+  {date:'Mid Aug',   year:'Classic', name:'Sapporo Kinen',             grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Mid Aug',   year:'Classic', name:'Kitakyushu Kinen',          grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Late Aug',  year:'Classic', name:'Keeneland Cup',             grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Sep', year:'Classic', name:'Rose Stakes',               grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Early Sep', year:'Classic', name:'Centaur Stakes',            grade:'G2', distance:'Sprint', surface:'Turf'},
+  {date:'Early Sep', year:'Classic', name:'Niigata Kinen',             grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Sep', year:'Classic', name:'Keisei Hai Autumn Handicap',grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Mid Sep',   year:'Classic', name:'Shion Stakes',              grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Late Sep',  year:'Classic', name:'Sprinters Stakes',          grade:'G1', distance:'Sprint', surface:'Turf'},
+  {date:'Late Sep',  year:'Classic', name:'St. Lite Kinen',            grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Late Sep',  year:'Classic', name:'Kobe Shimbun Hai',          grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Late Sep',  year:'Classic', name:'All Comers',                grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Late Sep',  year:'Classic', name:'Sirius Stakes',             grade:'G3', distance:'Medium', surface:'Dirt'},
+  {date:'Early Oct', year:'Classic', name:'Kyoto Daishoten',           grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Early Oct', year:'Classic', name:'Mainichi Okan',             grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Early Oct', year:'Classic', name:'Fuchu Himba Stakes',        grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Late Oct',  year:'Classic', name:'Tenno Sho (Autumn)',        grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Late Oct',  year:'Classic', name:'Kikuka Sho',                grade:'G1', distance:'Long',   surface:'Turf'},
+  {date:'Late Oct',  year:'Classic', name:'Shuka Sho',                 grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Late Oct',  year:'Classic', name:'Fuji Stakes',               grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Late Oct',  year:'Classic', name:'Swan Stakes',               grade:'G2', distance:'Sprint', surface:'Turf'},
+  {date:'Early Nov', year:'Classic', name:'JBC Classic',               grade:'G1', distance:'Medium', surface:'Dirt'},
+  {date:'Early Nov', year:'Classic', name:'JBC Sprint',                grade:'G1', distance:'Sprint', surface:'Dirt'},
+  {date:'Early Nov', year:'Classic', name:"JBC Ladies' Classic",       grade:'G1', distance:'Mile',   surface:'Dirt'},
+  {date:'Early Nov', year:'Classic', name:'Queen Elizabeth II Cup',    grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Early Nov', year:'Classic', name:'Copa República Argentina',  grade:'G2', distance:'Long',   surface:'Turf'},
+  {date:'Early Nov', year:'Classic', name:'Miyako Stakes',             grade:'G3', distance:'Mile',   surface:'Dirt'},
+  {date:'Early Nov', year:'Classic', name:'Musashino Stakes',          grade:'G3', distance:'Mile',   surface:'Dirt'},
+  {date:'Mid Nov',   year:'Classic', name:'Fukushima Kinen',           grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Late Nov',  year:'Classic', name:'Japan Cup',                 grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Late Nov',  year:'Classic', name:'Mile Championship',         grade:'G1', distance:'Mile',   surface:'Turf'},
+  {date:'Late Nov',  year:'Classic', name:'Keihan Hai',                grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Dec', year:'Classic', name:'Champions Cup',             grade:'G1', distance:'Mile',   surface:'Dirt'},
+  {date:'Early Dec', year:'Classic', name:'Stayers Stakes',            grade:'G2', distance:'Long',   surface:'Turf'},
+  {date:'Early Dec', year:'Classic', name:'Challenge Cup',             grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Dec', year:'Classic', name:'Chunichi Shimbun Hai',      grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Mid Dec',   year:'Classic', name:'Capella Stakes',            grade:'G3', distance:'Sprint', surface:'Dirt'},
+  {date:'Mid Dec',   year:'Classic', name:'Turquoise Stakes',          grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Dec',  year:'Classic', name:'Tokyo Daishoten',           grade:'G1', distance:'Medium', surface:'Dirt'},
+  {date:'Late Dec',  year:'Classic', name:'Arima Kinen',               grade:'G1', distance:'Long',   surface:'Turf'},
+  {date:'Late Dec',  year:'Classic', name:'Hanshin Cup',               grade:'G2', distance:'Sprint', surface:'Turf'}
+];
+const RACES_SENIOR = [
+  {date:'Early Jan', year:'Senior', name:'Nikkei Shinshun Hai',       grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Early Jan', year:'Senior', name:'Kyoto Kimpai',              grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Jan', year:'Senior', name:'Nakayama Kimpai',           grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Jan', year:'Senior', name:'Aichi Hai',                 grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Late Jan',  year:'Senior', name:'Tokai Stakes',              grade:'G2', distance:'Mile',   surface:'Dirt'},
+  {date:'Late Jan',  year:'Senior', name:'American JCC',              grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Late Jan',  year:'Senior', name:'Silk Road Stakes',          grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Late Jan',  year:'Senior', name:'Negishi Stakes',            grade:'G3', distance:'Sprint', surface:'Dirt'},
+  {date:'Early Feb', year:'Senior', name:'Kyoto Kinen',               grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Early Feb', year:'Senior', name:'Tokyo Shimbun Hai',         grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Feb',  year:'Senior', name:'February Stakes',           grade:'G1', distance:'Mile',   surface:'Dirt'},
+  {date:'Late Feb',  year:'Senior', name:'Nakayama Kinen',            grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Late Feb',  year:'Senior', name:'Kyoto Umamusume Stakes',    grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Late Feb',  year:'Senior', name:'Diamond Stakes',            grade:'G3', distance:'Long',   surface:'Turf'},
+  {date:'Late Feb',  year:'Senior', name:'Kokura Daishoten',          grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Feb',  year:'Senior', name:'Hankyu Hai',                grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Mar', year:'Senior', name:'Kinko Sho',                 grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Early Mar', year:'Senior', name:'Ocean Stakes',              grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Mar', year:'Senior', name:'Nakayama Umamusume Stakes', grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Mar',  year:'Senior', name:'Osaka Hai',                 grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Late Mar',  year:'Senior', name:'Takamatsunomiya Kinen',     grade:'G1', distance:'Sprint', surface:'Turf'},
+  {date:'Late Mar',  year:'Senior', name:'Nikkei Sho',                grade:'G2', distance:'Long',   surface:'Turf'},
+  {date:'Late Mar',  year:'Senior', name:'Hanshin Daishoten',         grade:'G2', distance:'Long',   surface:'Turf'},
+  {date:'Late Mar',  year:'Senior', name:'March Stakes',              grade:'G3', distance:'Mile',   surface:'Dirt'},
+  {date:'Early Apr', year:'Senior', name:'Hanshin Umamusume Stakes',  grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Early Apr', year:'Senior', name:'Lord Derby Challenge Trophy',grade:'G3', distance:'Mile',  surface:'Turf'},
+  {date:'Early Apr', year:'Senior', name:'Antares Stakes',            grade:'G3', distance:'Mile',   surface:'Dirt'},
+  {date:'Late Apr',  year:'Senior', name:'Tenno Sho (Spring)',        grade:'G1', distance:'Long',   surface:'Turf'},
+  {date:'Late Apr',  year:'Senior', name:'Milers Cup',                grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Late Apr',  year:'Senior', name:'Fukushima Umamusume Stakes',grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early May', year:'Senior', name:'Victoria Mile',             grade:'G1', distance:'Mile',   surface:'Turf'},
+  {date:'Early May', year:'Senior', name:'Keio Hai Spring Cup',       grade:'G2', distance:'Sprint', surface:'Turf'},
+  {date:'Early May', year:'Senior', name:'Niigata Daishoten',         grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Late May',  year:'Senior', name:'Meguro Kinen',              grade:'G2', distance:'Long',   surface:'Turf'},
+  {date:'Late May',  year:'Senior', name:'Heian Stakes',              grade:'G3', distance:'Medium', surface:'Dirt'},
+  {date:'Early Jun', year:'Senior', name:'Yasuda Kinen',              grade:'G1', distance:'Mile',   surface:'Turf'},
+  {date:'Early Jun', year:'Senior', name:'Naruo Kinen',               grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Jun', year:'Senior', name:'Mermaid Stakes',            grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Jun', year:'Senior', name:'Epsom Cup',                 grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Jun',  year:'Senior', name:'Teio Sho',                  grade:'G1', distance:'Medium', surface:'Dirt'},
+  {date:'Late Jun',  year:'Senior', name:'Takarazuka Kinen',          grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Late Jun',  year:'Senior', name:'Hakodate Sprint Stakes',    grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Jul', year:'Senior', name:'CBC Sho',                   grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Jul', year:'Senior', name:'Procyon Stakes',            grade:'G3', distance:'Sprint', surface:'Dirt'},
+  {date:'Early Jul', year:'Senior', name:'Tanabata Sho',              grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Jul', year:'Senior', name:'Hakodate Kinen',            grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Late Jul',  year:'Senior', name:'Chukyo Kinen',              grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Jul',  year:'Senior', name:'Ibis Summer Dash',          grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Late Jul',  year:'Senior', name:'Queen Stakes',              grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Aug', year:'Senior', name:'Kokura Kinen',              grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Aug', year:'Senior', name:'Sekiya Kinen',              grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Early Aug', year:'Senior', name:'Elm Stakes',                grade:'G3', distance:'Mile',   surface:'Dirt'},
+  {date:'Late Aug',  year:'Senior', name:'Sapporo Kinen',             grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Late Aug',  year:'Senior', name:'Kitakyushu Kinen',          grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Late Aug',  year:'Senior', name:'Keeneland Cup',             grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Sep', year:'Senior', name:'Centaur Stakes',            grade:'G2', distance:'Sprint', surface:'Turf'},
+  {date:'Early Sep', year:'Senior', name:'Niigata Kinen',             grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Sep', year:'Senior', name:'Keisei Hai Autumn Handicap',grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Sep',  year:'Senior', name:'Sprinters Stakes',          grade:'G1', distance:'Sprint', surface:'Turf'},
+  {date:'Late Sep',  year:'Senior', name:'All Comers',                grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Late Sep',  year:'Senior', name:'Sirius Stakes',             grade:'G3', distance:'Medium', surface:'Dirt'},
+  {date:'Early Oct', year:'Senior', name:'Kyoto Daishoten',           grade:'G2', distance:'Medium', surface:'Turf'},
+  {date:'Early Oct', year:'Senior', name:'Mainichi Okan',             grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Early Oct', year:'Senior', name:'Fuchu Umamusume Stakes',    grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Late Oct',  year:'Senior', name:'Tenno Sho (Autumn)',        grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Late Oct',  year:'Senior', name:'Swan Stakes',               grade:'G2', distance:'Sprint', surface:'Turf'},
+  {date:'Late Oct',  year:'Senior', name:'Fuji Stakes',               grade:'G2', distance:'Mile',   surface:'Turf'},
+  {date:'Early Nov', year:'Senior', name:'JBC Classic',               grade:'G1', distance:'Medium', surface:'Dirt'},
+  {date:'Early Nov', year:'Senior', name:'JBC Sprint',                grade:'G1', distance:'Sprint', surface:'Dirt'},
+  {date:'Early Nov', year:'Senior', name:"JBC Ladies' Classic",       grade:'G1', distance:'Mile',   surface:'Dirt'},
+  {date:'Early Nov', year:'Senior', name:'Queen Elizabeth II Cup',    grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Early Nov', year:'Senior', name:'Copa Republica Argentina',  grade:'G2', distance:'Long',   surface:'Turf'},
+  {date:'Early Nov', year:'Senior', name:'Miyako Stakes',             grade:'G3', distance:'Mile',   surface:'Dirt'},
+  {date:'Early Nov', year:'Senior', name:'Musashino Stakes',          grade:'G3', distance:'Mile',   surface:'Dirt'},
+  {date:'Early Nov', year:'Senior', name:'Fukushima Kinen',           grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Late Nov',  year:'Senior', name:'Japan Cup',                 grade:'G1', distance:'Medium', surface:'Turf'},
+  {date:'Late Nov',  year:'Senior', name:'Mile Championship',         grade:'G1', distance:'Mile',   surface:'Turf'},
+  {date:'Late Nov',  year:'Senior', name:'Keihan Hai',                grade:'G3', distance:'Sprint', surface:'Turf'},
+  {date:'Early Dec', year:'Senior', name:'Champions Cup',             grade:'G1', distance:'Mile',   surface:'Dirt'},
+  {date:'Early Dec', year:'Senior', name:'Stayers Stakes',            grade:'G2', distance:'Long',   surface:'Turf'},
+  {date:'Early Dec', year:'Senior', name:'Challenge Cup',             grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Dec', year:'Senior', name:'Chunichi Shimbun Hai',      grade:'G3', distance:'Medium', surface:'Turf'},
+  {date:'Early Dec', year:'Senior', name:'Capella Stakes',            grade:'G3', distance:'Sprint', surface:'Dirt'},
+  {date:'Early Dec', year:'Senior', name:'Turquoise Stakes',          grade:'G3', distance:'Mile',   surface:'Turf'},
+  {date:'Late Dec',  year:'Senior', name:'Tokyo Daishoten',           grade:'G1', distance:'Medium', surface:'Dirt'},
+  {date:'Late Dec',  year:'Senior', name:'Arima Kinen',               grade:'G1', distance:'Long',   surface:'Turf'},
+  {date:'Late Dec',  year:'Senior', name:'Hanshin Cup',               grade:'G2', distance:'Sprint', surface:'Turf'}
+];
+const RACES = [...RACES_JUNIOR, ...RACES_CLASSIC, ...RACES_SENIOR];
 
-/* ===== Crown Titles (fixed) ===== */
+/* ===== Crown Titles ===== */
 const CROWNS = [
   {id:'classic_triple', title:'Classic Triple Crown', keys:[
     "Classic__Early Apr__Satsuki Sho",
@@ -447,7 +619,7 @@ const CROWNS = [
   ]}
 ];
 
-/* ===== State, storage and helpers ===== */
+/* ===== State & storage ===== */
 const DEFAULT_UMA=["Special Week","Silence Suzuka","Tokai Teio","Vodka","Daiwa Scarlet","Gold Ship","Mejiro McQueen","Symboli Rudolf","Rice Shower","Taiki Shuttle","Narita Brian","Agnes Tachyon","Hishi Amazon","El Condor Pasa","Manhattan Cafe"];
 function blankInfo(){return{
   photo:null, recommendedKeys:[], mandatoryKeys:[],
@@ -467,6 +639,7 @@ function loadUmaList(){
 }
 function saveUmaList(){ localStorage.setItem("umamusume.umalist",JSON.stringify(state.umaList)); }
 
+/* ===== Helpers ===== */
 const MONTH_ORDER=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function posIndex(pos){return pos==='Early'?1:pos==='Mid'?2:pos==='Late'?3:2;}
 function parseDateStr(s){const [pos,mon]=s.trim().split(/\s+/);return{m:MONTH_ORDER.indexOf(mon),p:posIndex(pos||'Mid')};}
@@ -542,7 +715,7 @@ function updateSortIndicators(){sortNameInd.textContent=(state.sortKey==="name"?
 
 /* ===== Export/Import/Clear ===== */
 document.getElementById("exportJson").onclick=()=>{
-  const data={version:23,umaList:state.umaList};
+  const data={version:24,umaList:state.umaList};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="umamusume_race_progress.json";a.click();
 };
@@ -647,7 +820,7 @@ function buildCrownUI(){
 runnerPhotoEl.addEventListener("click",()=>{const u=state.currentUma;if(!u)return;const src=state.umaList[u].info.photo;if(!src)return;photoLarge.src=src; (photoDialog.showModal?photoDialog.showModal():photoDialog.setAttribute('open','open'));});
 photoClose.onclick=()=> (photoDialog.close?photoDialog.close():photoDialog.removeAttribute('open'));
 
-/* ===== FULL Info editor behavior ===== */
+/* ===== FULL Details editor behavior ===== */
 const RANKS=['S','A','B','C','D','E','F','G'];
 function fillRankSelect(sel, val='A'){ sel.innerHTML=RANKS.map(r=>`<option${r===val?' selected':''}>${r}</option>`).join(''); }
 function makeSupportRow(type='SPD', name='', removable=false){
@@ -687,7 +860,7 @@ function parseSupportLine(line){
   return {type:normalizeType(m[1]), name:m[2]};
 }
 
-editInfoBtn.onclick=()=>{
+document.getElementById("editInfoBtn").onclick=()=>{
   const u=state.currentUma;if(!u)return;
   // wire refs
   editPace=document.getElementById('editPace');
@@ -702,16 +875,12 @@ editInfoBtn.onclick=()=>{
   editSkills=document.getElementById('editSkills');
   editDeckNote=document.getElementById('editDeckNote');
 
-  // fill rank selects
   [editTurf,editDirt,editSprint,editMile,editMedium,editLong].forEach(sel=>fillRankSelect(sel));
 
-  // load current info
   const inf=state.umaList[u].info||blankInfo();
 
-  // pace
   [...editPace.querySelectorAll('input')].forEach(cb=>cb.checked = (inf.pace||[]).includes(cb.value));
 
-  // track + distance
   fillRankSelect(editTurf, inf.track?.turf||'A');
   fillRankSelect(editDirt, inf.track?.dirt||'A');
   fillRankSelect(editSprint, inf.distance?.sprint||'A');
@@ -719,7 +888,6 @@ editInfoBtn.onclick=()=>{
   fillRankSelect(editMedium, inf.distance?.medium||'A');
   fillRankSelect(editLong, inf.distance?.long||'A');
 
-  // supports (exactly 6 visible rows)
   editSupports.innerHTML='';
   const parsed=(inf.supports||[]).map(parseSupportLine).slice(0,6);
   for(let i=0;i<6;i++){
@@ -727,20 +895,16 @@ editInfoBtn.onclick=()=>{
     editSupports.appendChild(row);
   }
 
-  // alt supports (dynamic)
   editAltSupports.innerHTML='';
   (inf.altSupports||[]).map(parseSupportLine).forEach(s=>editAltSupports.appendChild(makeSupportRow(s.type,s.name,true)));
   document.getElementById('addAltSupport').onclick=()=>editAltSupports.appendChild(makeSupportRow('SPD','',true));
 
-  // skills (dynamic)
   editSkills.innerHTML='';
   (inf.skills||[]).forEach(sk=>editSkills.appendChild(makeSkillRow(sk)));
   document.getElementById('addSkill').onclick=()=>editSkills.appendChild(makeSkillRow(''));
 
-  // notes
   editDeckNote.value = inf.deckNote||'';
 
-  // open
   (infoEditor.showModal?infoEditor.showModal():infoEditor.setAttribute('open','open'));
 };
 
@@ -748,14 +912,10 @@ document.getElementById('infoSave').onclick=()=>{
   const u=state.currentUma;if(!u)return;
   const inf=state.umaList[u].info||blankInfo();
 
-  // pace (may be multi)
   inf.pace=[...document.querySelectorAll('#editPace input:checked')].map(cb=>cb.value);
-
-  // track + distance
   inf.track={turf:editTurf.value, dirt:editDirt.value};
   inf.distance={sprint:editSprint.value, mile:editMile.value, medium:editMedium.value, long:editLong.value};
 
-  // supports (exactly 6 non-empty)
   const rows=[...editSupports.querySelectorAll('.support-row')];
   const sup=[];
   rows.forEach(r=>{
@@ -765,7 +925,6 @@ document.getElementById('infoSave').onclick=()=>{
   });
   inf.supports = sup;
 
-  // alt supports
   const alts=[];
   [...editAltSupports.querySelectorAll('.support-row')].forEach(r=>{
     const t=normalizeType(r.querySelector('.support-type').value);
@@ -774,14 +933,12 @@ document.getElementById('infoSave').onclick=()=>{
   });
   inf.altSupports = alts;
 
-  // skills
   const skills=[];
   [...editSkills.querySelectorAll('.skill-row .skill-name')].forEach(inp=>{
     const v=inp.value.trim(); if(v) skills.push(v);
   });
   inf.skills = skills;
 
-  // notes
   inf.deckNote = editDeckNote.value.trim();
 
   state.umaList[u].info = inf;
@@ -898,7 +1055,7 @@ function render(){
 
   statTotal.textContent=view.length; statWins.textContent=wins; statLosses.textContent=losses;
 
-  buildCrownUI(); // keep indeterminate states fresh if selection changed externally
+  buildCrownUI();
 }
 function renderList(container, arr){
   container.innerHTML=""; const list=Array.isArray(arr)?arr.filter(Boolean):[];
