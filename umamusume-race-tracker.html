@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Umamusume Race Tracker</title>
 <style>
-  :root{
+	:root{
+
     --bg:#0f1115; --panel:#151924; --soft:#1b2030; --muted:#9aa4b2;
     --text:#e7ecf3; --acc:#5aa7ff; --good:#45d48a; --bad:#ff7a7a; --line:#23283a; --warn:#ffb454;
     --winRow:#2b2405; --winRowBorder:#8a6d0a;
@@ -25,6 +26,7 @@
   select, input, button, textarea{background:var(--soft);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
   button{cursor:pointer}
   button.primary{background:var(--acc);border-color:transparent;color:#041a2e}
+  .iconbtn{padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--soft);color:var(--text)}
   .tabs{display:flex;gap:6px}
   .tab{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--soft);color:var(--text)}
   .tab.active{background:var(--acc);color:#041a2e;border-color:transparent}
@@ -75,7 +77,6 @@
   dialog{border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);padding:0;max-width:980px}
   dialog header{padding:12px 14px;border-bottom:1px solid var(--line)}
   dialog .body{padding:12px 14px}
-  .iconbtn{padding:6px 10px}
   .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
   .selWrap{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .box{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--soft);max-height:420px;overflow:auto}
@@ -91,7 +92,6 @@
   .tmpl-title{font-size:12px;color:var(--muted);margin:8px 0 4px 0}
   .tmpl-items{display:flex;flex-direction:column;gap:6px;background:#12182a;border:1px solid var(--line);border-radius:8px;padding:8px}
 
-  /* Editor helpers */
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
   .editor-section{border:1px solid var(--line);border-radius:10px;background:var(--soft);padding:10px;margin:8px 0}
@@ -99,6 +99,7 @@
   .support-row,.skill-row{display:grid;grid-template-columns:120px 1fr auto;gap:8px;margin:6px 0}
   .support-row.fixed{grid-template-columns:120px 1fr}
   .mini{font-size:12px;color:var(--muted)}
+  .inline-actions{display:flex;gap:6px;margin-top:6px}
 </style>
 </head>
 <body>
@@ -205,6 +206,14 @@
                 <label><input type="checkbox" value="Senior"> Senior</label>
               </div>
             </div>
+
+            <!-- New: All Participated Races toggle -->
+            <div>
+              <div class="subtle">Participation</div>
+              <div class="checkgroup">
+                <label><input type="checkbox" id="showParticipated"> All Participated Races</label>
+              </div>
+            </div>
           </div>
           <div class="tools-actions">
             <button id="clearEligibility">Clear Tag Filter</button>
@@ -250,7 +259,7 @@
             <th class="sortable" data-sort="name">Race <span id="sortName" class="sort-ind"></span></th>
             <th style="width:210px">Details</th>
             <th class="sortable" data-sort="year" style="width:90px">Year <span id="sortYear" class="sort-ind"></span></th>
-            <th style="width:160px">Result</th>
+            <th style="width:220px">Result</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -325,7 +334,7 @@
         <label><input type="checkbox" value="Late Surger"> Late Surger</label>
         <label><input type="checkbox" value="End Closer"> End Closer</label>
       </div>
-      <div class="mini">You can select multiple (some Umamusume have 2–3).</div>
+      <div class="mini">You can select multiple.</div>
     </div>
 
     <div class="editor-section">
@@ -577,7 +586,7 @@ const RACES_SENIOR = [
   {date:'Late Dec',  year:'Senior', name:'Arima Kinen',               grade:'G1', distance:'Long',   surface:'Turf'},
   {date:'Late Dec',  year:'Senior', name:'Hanshin Cup',               grade:'G2', distance:'Sprint', surface:'Turf'}
 ];
-const RACES = [...RACES_JUNIOR, ...RACES_CLASSIC, ...RACES_SENIOR];
+const RACES=[...RACES_JUNIOR,...RACES_CLASSIC,...RACES_SENIOR];
 
 /* ===== Crown Titles ===== */
 const CROWNS = [
@@ -657,6 +666,7 @@ const dashGrades=document.getElementById("dashGrades");
 const dashSurfaces=document.getElementById("dashSurfaces");
 const dashDistances=document.getElementById("dashDistances");
 const dashYears=document.getElementById("dashYears");
+const showParticipated=document.getElementById("showParticipated");
 const searchBox=document.getElementById("searchBox");
 const clearFiltersBtn=document.getElementById("clearFilters");
 const raceTBody=document.querySelector("#raceTable tbody");
@@ -696,12 +706,32 @@ const editInfoBtn=document.getElementById("editInfoBtn");
 /* editor field refs (assigned on open) */
 let editPace, editTurf, editDirt, editSprint, editMile, editMedium, editLong, editSupports, editAltSupports, editSkills, editDeckNote;
 
+/* ===== Confirm discard helpers ===== */
+let infoEditBackup = null;
+let infoEditUma = null;
+function closeDialog(d){ if(d?.close) d.close(); else d.removeAttribute('open'); }
+function confirmDiscardAndClose() {
+  if (!infoEditor.open) return;
+  if (confirm('Discard changes to Umamusume Details and close?')) {
+    if (infoEditUma && infoEditBackup) {
+      state.umaList[infoEditUma].info = JSON.parse(JSON.stringify(infoEditBackup));
+      saveUmaList();
+      render();
+    }
+    infoEditBackup = null;
+    infoEditUma = null;
+    closeDialog(infoEditor);
+  }
+}
+
 /* ===== Events: filters/search/sort ===== */
 [dashGrades,dashSurfaces,dashDistances,dashYears].forEach(el=>el.addEventListener("change", render));
+showParticipated.addEventListener("change", render);
 searchBox.oninput=render;
 document.getElementById("clearEligibility").onclick=()=>{ render(); };
 clearFiltersBtn.onclick=()=>{
   [dashGrades,dashSurfaces,dashDistances,dashYears].forEach(el=>el.querySelectorAll("input").forEach(cb=>cb.checked=false));
+  showParticipated.checked=false;
   searchBox.value=""; clearSort(); render();
 };
 tabRec.onclick=()=>{state.view="recommended";tabRec.classList.add("active");tabMand.classList.remove("active");tabAll.classList.remove("active");render();};
@@ -715,7 +745,7 @@ function updateSortIndicators(){sortNameInd.textContent=(state.sortKey==="name"?
 
 /* ===== Export/Import/Clear ===== */
 document.getElementById("exportJson").onclick=()=>{
-  const data={version:24,umaList:state.umaList};
+  const data={version:28,umaList:state.umaList};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="umamusume_race_progress.json";a.click();
 };
@@ -820,9 +850,9 @@ function buildCrownUI(){
 runnerPhotoEl.addEventListener("click",()=>{const u=state.currentUma;if(!u)return;const src=state.umaList[u].info.photo;if(!src)return;photoLarge.src=src; (photoDialog.showModal?photoDialog.showModal():photoDialog.setAttribute('open','open'));});
 photoClose.onclick=()=> (photoDialog.close?photoDialog.close():photoDialog.removeAttribute('open'));
 
-/* ===== FULL Details editor behavior ===== */
+/* ===== Details editor ===== */
 const RANKS=['S','A','B','C','D','E','F','G'];
-function fillRankSelect(sel, val='A'){ sel.innerHTML=RANKS.map(r=>`<option${r===val?' selected':''}>${r}</option>`).join(''); }
+function fillRankSelect(sel, val='A'){ if(!sel) return; sel.innerHTML=RANKS.map(r=>`<option${r===val?' selected':''}>${r}</option>`).join(''); }
 function makeSupportRow(type='SPD', name='', removable=false){
   const row=document.createElement('div');
   row.className='support-row'+(removable?'':' fixed');
@@ -835,9 +865,7 @@ function makeSupportRow(type='SPD', name='', removable=false){
   `;
   row.querySelector('.support-type').value=normalizeType(type);
   row.querySelector('.support-name').value=name||'';
-  if(removable){
-    row.querySelector('.remove').onclick=()=>row.remove();
-  }
+  if(removable){ row.querySelector('.remove').onclick=()=>row.remove(); }
   return row;
 }
 function makeSkillRow(text=''){
@@ -860,9 +888,13 @@ function parseSupportLine(line){
   return {type:normalizeType(m[1]), name:m[2]};
 }
 
+/* Open details editor */
 document.getElementById("editInfoBtn").onclick=()=>{
   const u=state.currentUma;if(!u)return;
-  // wire refs
+
+  infoEditUma = u;
+  infoEditBackup = JSON.parse(JSON.stringify(state.umaList[u].info || blankInfo()));
+
   editPace=document.getElementById('editPace');
   editTurf=document.getElementById('editTurf');
   editDirt=document.getElementById('editDirt');
@@ -905,49 +937,60 @@ document.getElementById("editInfoBtn").onclick=()=>{
 
   editDeckNote.value = inf.deckNote||'';
 
+  const saveBtn = document.getElementById('infoSave');
+  saveBtn.onclick = (e)=>{
+    e.preventDefault();
+    try{
+      const cur = state.umaList[u].info || blankInfo();
+      cur.pace=[...document.querySelectorAll('#editPace input:checked')].map(cb=>cb.value);
+      cur.track={turf:editTurf?.value||'A', dirt:editDirt?.value||'A'};
+      cur.distance={sprint:editSprint?.value||'A', mile:editMile?.value||'A', medium:editMedium?.value||'A', long:editLong?.value||'A'};
+
+      const sup=[];
+      [...editSupports?.querySelectorAll('.support-row')||[]].forEach(r=>{
+        const t=normalizeType(r.querySelector('.support-type')?.value||'SPD');
+        const n=(r.querySelector('.support-name')?.value||'').trim();
+        if(n) sup.push(`${t}: ${n}`);
+      });
+      cur.supports = sup;
+
+      const alts=[];
+      [...editAltSupports?.querySelectorAll('.support-row')||[]].forEach(r=>{
+        const t=normalizeType(r.querySelector('.support-type')?.value||'SPD');
+        const n=(r.querySelector('.support-name')?.value||'').trim();
+        if(n) alts.push(`${t}: ${n}`);
+      });
+      cur.altSupports = alts;
+
+      const skills=[];
+      [...editSkills?.querySelectorAll('.skill-row .skill-name')||[]].forEach(inp=>{
+        const v=(inp.value||'').trim(); if(v) skills.push(v);
+      });
+      cur.skills = skills;
+
+      cur.deckNote = (editDeckNote?.value||'').trim();
+
+      state.umaList[u].info = cur;
+      saveUmaList();
+
+      infoEditBackup = null;
+      infoEditUma = null;
+
+      render();
+      closeDialog(infoEditor);
+    }catch(err){
+      console.error(err);
+      alert("Save failed. Check console for details.");
+    }
+  };
+
+  document.getElementById('infoClose').onclick = confirmDiscardAndClose;
+  infoEditor.addEventListener('cancel', (e) => { e.preventDefault(); confirmDiscardAndClose(); }, {once:true});
+
   (infoEditor.showModal?infoEditor.showModal():infoEditor.setAttribute('open','open'));
 };
 
-document.getElementById('infoSave').onclick=()=>{
-  const u=state.currentUma;if(!u)return;
-  const inf=state.umaList[u].info||blankInfo();
-
-  inf.pace=[...document.querySelectorAll('#editPace input:checked')].map(cb=>cb.value);
-  inf.track={turf:editTurf.value, dirt:editDirt.value};
-  inf.distance={sprint:editSprint.value, mile:editMile.value, medium:editMedium.value, long:editLong.value};
-
-  const rows=[...editSupports.querySelectorAll('.support-row')];
-  const sup=[];
-  rows.forEach(r=>{
-    const t=normalizeType(r.querySelector('.support-type').value);
-    const n=r.querySelector('.support-name').value.trim();
-    if(n) sup.push(`${t}: ${n}`);
-  });
-  inf.supports = sup;
-
-  const alts=[];
-  [...editAltSupports.querySelectorAll('.support-row')].forEach(r=>{
-    const t=normalizeType(r.querySelector('.support-type').value);
-    const n=r.querySelector('.support-name').value.trim();
-    if(n) alts.push(`${t}: ${n}`);
-  });
-  inf.altSupports = alts;
-
-  const skills=[];
-  [...editSkills.querySelectorAll('.skill-row .skill-name')].forEach(inp=>{
-    const v=inp.value.trim(); if(v) skills.push(v);
-  });
-  inf.skills = skills;
-
-  inf.deckNote = editDeckNote.value.trim();
-
-  state.umaList[u].info = inf;
-  saveUmaList();
-  render();
-  if(infoEditor.close) infoEditor.close(); else infoEditor.removeAttribute('open');
-};
-
-/* Photo input saves immediately */
+/* Photo persistence */
 photoInput?.addEventListener("change", e=>{
   const file=e.target.files?.[0]; if(!file) return;
   const u=state.currentUma; if(!u) return;
@@ -959,6 +1002,23 @@ photoRemoveBtn?.addEventListener("click", ()=>{
   const u=state.currentUma; if(!u) return;
   state.umaList[u].info.photo=null; saveUmaList(); render();
 });
+
+/* Add to Rec/Mand from All view */
+function addRaceTo(listType, key){
+  if(!validKey(key)) return;
+  const u=state.currentUma; if(!u) return;
+  const info = state.umaList[u].info || blankInfo();
+  if(listType==='recommended'){
+    if(!info.recommendedKeys.includes(key)) info.recommendedKeys.push(key);
+  } else if(listType==='mandatory'){
+    if(!info.mandatoryKeys.includes(key)) info.mandatoryKeys.push(key);
+  }
+  info.recommendedKeys = (info.recommendedKeys||[]).filter(validKey);
+  info.mandatoryKeys   = (info.mandatoryKeys||[]).filter(validKey);
+  state.umaList[u].info = info;
+  saveUmaList();
+  render();
+}
 
 /* ===== Render ===== */
 function initUmaSelect(){
@@ -997,10 +1057,18 @@ function render(){
   document.getElementById("infoDeckNote").textContent=inf.deckNote||"None";
   renderList(document.getElementById("infoSkills"), inf.skills||[]);
 
-  viewBadge.textContent=(state.view==="recommended")?"Recommended":(state.view==="mandatory"?"Mandatory":"All races");
+  // Base list selection with new "All Participated Races" override
   let base=RACES.slice();
-  if(state.view==="recommended"){base=(inf.recommendedKeys||[]).length?base.filter(r=>inf.recommendedKeys.includes(raceKey(r))):[];}
-  else if(state.view==="mandatory"){base=(inf.mandatoryKeys||[]).length?base.filter(r=>inf.mandatoryKeys.includes(raceKey(r))):[];}
+  if (showParticipated.checked) {
+    const results=state.umaList[state.currentUma].results||{};
+    const keys=Object.keys(results).filter(k=>results[k]==='win'||results[k]==='loss');
+    base = keys.map(findRaceByKey).filter(Boolean);
+    viewBadge.textContent = "Participated";
+  } else {
+    viewBadge.textContent=(state.view==="recommended")?"Recommended":(state.view==="mandatory"?"Mandatory":"All races");
+    if(state.view==="recommended"){base=(inf.recommendedKeys||[]).length?base.filter(r=>inf.recommendedKeys.includes(raceKey(r))):[];}
+    else if(state.view==="mandatory"){base=(inf.mandatoryKeys||[]).length?base.filter(r=>inf.mandatoryKeys.includes(raceKey(r))):[];}
+  }
 
   const gs=getCheckedValues(dashGrades), ss=getCheckedValues(dashSurfaces), ds=getCheckedValues(dashDistances), ys=getCheckedValues(dashYears);
   const q=searchBox.value.trim();
@@ -1031,6 +1099,14 @@ function render(){
     if(res==="win") classes.push("win"); else if(res==="loss") classes.push("loss");
     if(focusSet.has(key)) classes.push("focus");
     tr.className=classes.join(" ");
+
+    const addControls = (!showParticipated.checked && state.view === 'all')
+      ? `<div class="inline-actions">
+           <button class="iconbtn add-rec" data-key="${key}">+ Rec</button>
+           <button class="iconbtn add-mand" data-key="${key}">+ Mand</button>
+         </div>`
+      : ``;
+
     tr.innerHTML=`
       <td>${r.date}</td>
       <td>${r.name}</td>
@@ -1042,9 +1118,11 @@ function render(){
           <option value="win"${res==="win"?" selected":""}>Win</option>
           <option value="loss"${res==="loss"?" selected":""}>Loss</option>
         </select>
+        ${addControls}
       </td>`;
     raceTBody.appendChild(tr);
   }
+
   raceTBody.querySelectorAll("select").forEach(sel=>{
     sel.addEventListener("change", e=>{
       const key=e.target.dataset.key, val=e.target.value;
@@ -1053,10 +1131,18 @@ function render(){
     });
   });
 
+  raceTBody.querySelectorAll(".add-rec").forEach(btn=>{
+    btn.addEventListener("click", ()=> addRaceTo('recommended', btn.dataset.key));
+  });
+  raceTBody.querySelectorAll(".add-mand").forEach(btn=>{
+    btn.addEventListener("click", ()=> addRaceTo('mandatory', btn.dataset.key));
+  });
+
   statTotal.textContent=view.length; statWins.textContent=wins; statLosses.textContent=losses;
 
   buildCrownUI();
 }
+
 function renderList(container, arr){
   container.innerHTML=""; const list=Array.isArray(arr)?arr.filter(Boolean):[];
   if(list.length===0){container.innerHTML="<li>None</li>"; return;}
