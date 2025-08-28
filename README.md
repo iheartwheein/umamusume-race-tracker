@@ -330,3 +330,7 @@ If your browser does not support `<dialog>`, the code falls back to opening the 
 ---
 
 ## License
+
+Distributed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2025 G. Carlos aka iheartwheein
