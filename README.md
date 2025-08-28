@@ -1,217 +1,237 @@
 # Umamusume Race Tracker
 
-A single-file web app for tracking races, planning routes for each Umamusume, and keeping per-character progress. It runs in the browser, stores data in `localStorage`, and requires no build step.
+A single-file, client-side web app to plan, track, and review races for any Umamusume. No backend. Data stays in the browser and can be exported to JSON.
+
+> File: `umamusume-race-tracker.html` (HTML, CSS, and JS in one file)
+
+---
+
+## Contents
+
+* [Features](#features)
+* [Quick Start](#quick-start)
+* [How to Use](#how-to-use)
+
+  * [Select or Add an Umamusume](#select-or-add-an-umamusume)
+  * [Edit Umamusume Details](#edit-umamusume-details)
+  * [Views](#views)
+  * [Filters and Search](#filters-and-search)
+  * [Mark Results](#mark-results)
+  * [Career Tools and Crown Titles](#career-tools-and-crown-titles)
+  * [Calendar and Popover](#calendar-and-popover)
+  * [Import, Export, and Reset](#import-export-and-reset)
+* [Data Model](#data-model)
+
+  * [Local Storage Keys](#local-storage-keys)
+  * [Race Key Format](#race-key-format)
+  * [Races and Crowns](#races-and-crowns)
+* [Customization](#customization)
+* [Styling](#styling)
+* [Privacy and Security](#privacy-and-security)
+* [Browser Support](#browser-support)
+* [Known Limitations](#known-limitations)
+* [Changelog](#changelog)
+* [License](#license)
 
 ---
 
 ## Features
 
-### Views
+* **Zero-setup**
+  Open the HTML file in a modern browser. No build step. No external libraries.
 
-* **Recommended**
-  Shows races that match the selected Umamusume’s **track** and **distance** aptitudes. Only ranks **S** or **A** are considered a match. Manual picks you saved as “recommended” are included too.
+* **Umamusume management**
 
-* **Mandatory**
-  Shows only the races you explicitly saved as “mandatory” for the selected Umamusume.
+  * Preloaded list of well-known Umamusume.
+  * Add new Umamusume from the selector.
+  * Per-Umamusume data is stored separately.
 
-* **All races**
-  Full catalog. From here you can add races to “recommended” or “mandatory”.
+* **Details editor**
+
+  * Photo upload with instant save. Click the photo to view a large version.
+  * Track Aptitude: Turf and Dirt ranks A to G.
+  * Distance Aptitude: Sprint, Mile, Medium, Long ranks A to G.
+  * **Pace Aptitude**: Front runner, Pace chaser, Late surger, End closer ranks A to G. Two strong paces are supported by setting letters.
+  * Recommended Support Cards: exactly 6 slots with type tags `SPD`, `STAM`, `PWR`, `GUTS`, `WIT`.
+  * Alternative Support Cards: unlimited rows, add or remove as needed.
+  * Recommended Skills: unlimited rows, add or remove as needed.
+  * Deck Notes: free text.
+
+* **Dashboard**
+
+  * Views: **Recommended**, **Career**, **All races**, **Calendar**.
+  * Filters: Grade (G1, G2, G3), Track (Turf, Dirt), Distance (Sprint, Mile, Medium, Long), Year (Junior, Classic, Senior, EX).
+  * Quick Search across race name, month, year, grade, distance, and track.
+  * Sort on **Race** and **Year** headers. Sticky header for large lists.
+  * Stats cards: total races in view, wins, and losses.
+  * Row highlights:
+
+    * Win and Loss coloring.
+    * Focus for Crown title targets.
+
+* **Career tools**
+
+  * Add or remove any race from the Umamusume’s Career list.
+  * Crown Titles section toggles race focus sets and highlights them in the table.
 
 * **Calendar**
-  Month grid across the year. Races are grouped by month. Click a race title to add it to “recommended” or “mandatory”.
 
-All four views share the same filter panel and the same default sort order.
+  * Month buckets, sorted in calendar order.
+  * Click a race title to open a popover with one-click Career add or remove.
 
----
+* **Persistence**
 
-### Default sorting and manual sorting
+  * All data is saved per Umamusume in the browser `localStorage`.
+  * Export and Import progress as JSON.
+  * Reset marks or clear data for the selected Umamusume only.
 
-* **Default**: always sorted **by year** in this order **Junior → Classic → Senior**, then by **calendar order** (month Early → Mid → Late, then name).
-* You can click **Race** or **Year** in the table header to sort. Clicking the **Year** header toggles ascending or descending. Clicking **Race** sorts by name and toggles direction.
+* **UI quality**
 
-Calendar view uses the same year-first order inside each month.
-
----
-
-### Filters
-
-Found under **Dashboard → Filters**:
-
-* **View**: Recommended, Mandatory, All races, Calendar
-* **Grades**: G1, G2, G3
-* **Track**: Turf, Dirt
-* **Distance**: Sprint, Mile, Medium, Long
-* **Year**: Junior, Classic, Senior
-* **Participation**: Show only races you already marked with a Win or Loss
-
-You can also **quick search** by race name, month keyword, or year.
-
-**Note**: “Clear filters” resets all filter checkboxes and search, and restores the default sort.
+  * Compact layout with responsive grids.
+  * Skill editor layout prevents the add button from overlapping inputs.
+  * Accessible dialogs for photo viewer, details editor, and career list.
 
 ---
 
-### Stats widget
+## Quick Start
 
-* **Total races** currently shown
-* **Wins** and **Losses** counted from your marks
-* Action: **Reset marks** to clear all Win/Loss results for the current Umamusume
-
----
-
-### Crown titles
-
-Choose crown title presets to highlight focus races:
-
-* Classic Triple Crown
-* Triple Tiara
-* Senior Spring Triple Crown
-* Senior Autumn Triple Crown
-* Dual Grand Prix
-* Dual Miles
-* Dual Sprints
-* Dual Dirts
-
-Each crown title is a checkbox. When checked, all its races are added to the **focus** set and are highlighted in the table and calendar. Unchecking removes them from focus. Partial selection shows the indeterminate state.
+1. Download or copy `umamusume-race-tracker.html`.
+2. Open it in a modern desktop browser.
+3. Pick an Umamusume from the selector.
+4. Click **Edit Umamusume Details** to set aptitudes, supports, skills, and notes.
+5. Switch the **View** and apply **Filters** as needed.
+6. Mark race results as Win or Loss in the table.
+7. Use **Export progress** to back up to a JSON file.
 
 ---
 
-### Per-Umamusume details
+## How to Use
 
-Open **Edit Umamusume details** to configure:
+### Select or Add an Umamusume
+
+* Use the **Umamusume** dropdown in the header.
+* Choose an existing entry or select **+ Add new** to create one.
+* All edits save to the current Umamusume only.
+
+### Edit Umamusume Details
+
+Open the **Edit Umamusume Details** dialog to manage:
 
 * **Photo**
-  Stored as a data URL in `localStorage`. Click the photo to open the lightbox. You can remove it.
+  Upload JPG or PNG. The photo is embedded as a Data URL and saved immediately. Click the photo to enlarge it. Use **Remove photo** to clear it.
 
-* **Pace aptitude**
-  Multi-select. Saved for reference. Not used for filtering.
+* **Track and Distance Aptitudes**
+  Set ranks A to G for Turf, Dirt, Sprint, Mile, Medium, Long.
 
-* **Track aptitude**
-  Turf rank and Dirt rank. Ranks are S to G.
+* **Pace Aptitude**
+  Set ranks for Front runner, Pace chaser, Late surger, End closer. You can indicate strength in two paces by using high letters on both.
 
-* **Distance aptitude**
-  Sprint, Mile, Medium, Long ranks. Ranks are S to G.
+* **Support Cards**
 
-* **Recommended support cards**
-  Exactly six rows. Type codes: SPD, STAM, PWR, GUTS, WIT.
+  * **Recommended**: exactly 6 rows. Types are fixed to `SPD`, `STAM`, `PWR`, `GUTS`, `WIT`. A warning appears if there are not 6 entries.
+  * **Alternative**: add or remove rows as needed.
 
-* **Alternative support cards**
-  Any number of rows with a remove button.
+* **Recommended Skills**
+  Add or remove skill rows. The layout keeps the add button clear of inputs.
 
-* **Recommended skills**
-  Any number of rows with a remove button.
+* **Support Deck Notes**
+  Free text for composition notes and reasoning.
 
-* **Support deck notes**
-  Freeform text.
+Click **Save** to apply changes.
 
-Your edits save when you click **Save**. If you cancel, you can discard changes.
+### Views
 
----
+* **All races**
+  Full race list with filters and sorting.
 
-### Recommended logic
+* **Recommended**
+  Subset where Track and Distance aptitudes are strong for this Umamusume. A race is recommended if Track and Distance ranks are `S` or `A`. Pace is not used in this filter.
 
-Recommended view shows a **union** of:
+* **Career**
+  Shows races you have added to the Umamusume’s Career list. You can remove races right from the table.
 
-1. All races where:
+* **Calendar**
+  Month-grouped display. Click a race title to open a popover with actions.
 
-   * The race **track** matches a track aptitude with rank **S** or **A**
-     Turf race requires Turf S or A.
-     Dirt race requires Dirt S or A.
-   * The race **distance** matches a distance aptitude with rank **S** or **A**
-     Uses the distance bucket name: `sprint`, `mile`, `medium`, `long`.
+### Filters and Search
 
-2. Any races you manually added to the recommended list.
+Use the **Filters** toolbox to narrow by:
 
-Pace aptitude does not affect recommended filtering.
+* Grade: G1, G2, G3
+* Track: Turf, Dirt
+* Distance: Sprint, Mile, Medium, Long
+* Year: Junior, Classic, Senior, EX
 
----
+Use **Quick search** to match race name, month, year, grade, distance, or track.
 
-### Marking results
+Click **Clear filters** to reset everything and the sort order.
 
-In the table, choose **Win** or **Loss** per race. These marks are saved per Umamusume. “All participated races” filter uses these marks to show a history view.
+### Mark Results
 
----
+In the **Races** table, set **Win** or **Loss** per race. The row color and the stats cards update automatically. Use **Reset marks** to clear all results for the selected Umamusume.
 
-### Add races to lists
+### Career Tools and Crown Titles
 
-* **All races** table: each row has **+ Rec** and **+ Mand** buttons
-* **Calendar** view: click a race title to open a small dialog and choose the list
+* **Add to Career** from the table action button, the calendar popover, or manage in the **Career races** dialog.
+* **Crown Titles**: toggle a full set at once. Each Crown toggles a list of target races. When enabled, those races are added to the **focus** set and are highlighted in the table. Partial selection shows an indeterminate checkbox state.
 
----
+### Calendar and Popover
 
-### Data management
+* Switch **View → Calendar**.
+* Races are grouped by month.
+* Click a race title to open a small popover with race info and a primary action to add or remove it from Career.
 
-* **Export progress**
-  Downloads a JSON file with schema version and all per-Umamusume data.
+### Import, Export, and Reset
 
-* **Import progress**
-  Upload a previously saved JSON file to restore your data.
-
-* **Clear selected**
-  Wipes all data for the currently selected Umamusume.
-
-All data is stored under the `localStorage` key `umamusume.umalist` in the browser.
-
----
-
-## Quick start
-
-1. Download the single HTML file from the repository.
-2. Open it in any modern desktop browser.
-3. Use the **Umamusume** dropdown to pick a character or add a new one.
-4. Open **Edit Umamusume details** and set:
-
-   * Track aptitudes for Turf and Dirt
-   * Distance aptitudes for Sprint, Mile, Medium, Long
-   * Optional photo and notes
-5. Switch to **Recommended** view to see aptitude-based suggestions.
-6. Add races to **Mandatory** or **Recommended** as needed.
-7. Mark **Win** or **Loss** as you play.
-8. Export JSON for backups.
-
-No server is required.
+* **Export progress** writes a JSON file containing all Umamusume entries and race results.
+* **Import progress** reads a compatible JSON and replaces the stored data.
+* **Clear selected** wipes the current Umamusume’s data only.
+* **Reset marks** clears all Win and Loss marks for the current Umamusume.
 
 ---
 
-## Data model
+## Data Model
 
-### Storage layout
-
-`localStorage["umamusume.umalist"]` holds an object keyed by Umamusume name:
+Each Umamusume is stored under its name. The structure uses a results map and an `info` object.
 
 ```json
 {
-  "Special Week": {
-    "results": { "Classic__Late May__Japanese Derby (Tokyo Yushun)": "win" },
+  "Uma Name": {
+    "results": {
+      "Year__Date__Name": "win",
+      "Year__Date__Name": "loss"
+    },
     "tags": "",
-    "recommended": [],
     "info": {
-      "photo": "data:image/png;base64,...",
-      "recommendedKeys": [],
-      "mandatoryKeys": [],
-      "pace": ["Front Runner", "Late Surger"],
-      "track": { "turf": "A", "dirt": "B" },
-      "distance": { "sprint": "C", "mile": "A", "medium": "S", "long": "B" },
-      "supports": ["SPD: Example Card"],
-      "altSupports": ["STAM: Another Card"],
-      "deckNote": "Notes here",
-      "skills": ["Skill A", "Skill B"],
-      "focusKeys": ["Classic__Early Apr__Satsuki Sho"]
+      "photo": "data:image/...base64..." ,
+      "careerKeys": ["Year__Date__Name"],
+      "track": { "turf": "A", "dirt": "A" },
+      "distance": { "sprint": "A", "mile": "A", "medium": "A", "long": "A" },
+      "pace": { "front": "A", "chaser": "A", "late": "A", "end": "A" },
+      "supports": [{ "type": "SPD", "name": "Card Name" }],
+      "altSupports": [{ "type": "STAM", "name": "Card Name" }],
+      "deckNote": "text",
+      "skills": ["Skill Name"],
+      "focusKeys": ["Year__Date__Name"]
     }
   }
 }
 ```
 
-* `results`: map of `raceKey → "win" | "loss"`
-* `info.recommendedKeys` and `info.mandatoryKeys`: arrays of race keys
-* `info.focusKeys`: set by crown title checkboxes
-* `track` and `distance`: ranks `S` to `G` as strings
+### Local Storage Keys
 
-### Race identity and keys
+* `umamusume.umalist`
+  Main data blob containing all Umamusume.
 
-Every race has a unique key:
+* `umamusume.migr.clearCrowns.v2`
+  One-time migration flag that cleared legacy `focusKeys` on load.
+
+### Race Key Format
+
+Keys are built as:
 
 ```
-{year}__{date}__{name}
+<Year>__<Date>__<Name>
 ```
 
 Example:
@@ -220,168 +240,93 @@ Example:
 Classic__Late May__Japanese Derby (Tokyo Yushun)
 ```
 
-Keys are used for recommended, mandatory, focus, and results.
+### Races and Crowns
 
----
+* **RACES**
+  Hardcoded array of races across **Junior**, **Classic**, **Senior**, and **EX**. Each item includes:
 
-## Races and calendar order
+  * `date`: e.g., `Early Mar`, `Late Oct`, or `Scenario` for EX
+  * `year`: Junior, Classic, Senior, EX
+  * `name`: race title
+  * `grade`: G1, G2, G3, or EX
+  * `distance`: Sprint, Mile, Medium, Long
+  * `track`: Turf or Dirt
 
-* Race lists are defined in constants:
+* **CROWNS**
+  Predefined Crown title sets. Each entry has:
 
-  * `RACES_JUNIOR`
-  * `RACES_CLASSIC`
-  * `RACES_SENIOR`
-  * Combined as `RACES`
-* `date` uses `Early|Mid|Late` plus month name, for example `Early Apr`
-* Calendar order:
-
-  1. Year bucket: Junior → Classic → Senior
-  2. Month order: Jan → … → Dec
-  3. Position within month: Early → Mid → Late
-  4. Name as tiebreaker
-
-Helper functions:
-
-* `parseDateStr("Early Apr")` → `{ m: 3, p: 1 }`
-* `sortByCalendar(a, b)`
-* `sortByYearThenCalendar(a, b, dir)`
-
----
-
-## UI reference
-
-### Header
-
-* **Umamusume** selector
-  Add new by choosing “+ Add new”
-* **Quick search**
-  Substring search across name, month, year, grade, distance, track
-* **Clear filters**
-  Resets filters and sort to defaults
-
-### Dashboard
-
-* **Filters** panel
-  View, Grades, Track, Distance, Year, Participation
-  “Clear tag filter” refreshes the list view
-
-* **Recommendations** panel
-  Edit Recommended and Edit Mandatory
-  Crown titles list
-
-* **Stats** panel
-  Total, Wins, Losses, Reset marks
-
-### Tables and calendar
-
-* Table headers **Race** and **Year** are clickable for sorting
-* **Result** column: Win or Loss dropdown per race
-* **All races** only: “+ Rec” and “+ Mand” per row
-* **Calendar**: click a race title to add it to a list
-
-### Editors and dialogs
-
-* **Edit recommended races** and **Edit mandatory races**
-  Search, filter, add from matches into Selected, then Save
-
-* **Edit Umamusume details**
-  Photo, aptitudes, supports, skills, notes
-
-* **Add race** dialog
-  Choose to add to Recommended or Mandatory
-
-* **Photo lightbox**
-  Click photo to open. Close from dialog.
-
----
-
-## How recommended is calculated
-
-Function: `matchesAptitudes(r, info)`
-
-* Check track:
-
-  * Turf race requires `info.track.turf` in `{S, A}`
-  * Dirt race requires `info.track.dirt` in `{S, A}`
-* Check distance:
-
-  * Race distance bucket requires the same bucket in `info.distance` to be `{S, A}`
-
-Function: `buildRecommendedBase(info)`
-
-* Starts with all races where `matchesAptitudes` is true
-* Adds any races saved in `info.recommendedKeys`
-* The filter panel and search still apply afterward
-* Sorted by year then calendar by default
-
----
-
-## Export and import
-
-* **Export progress** creates `umamusume_race_progress.json`
-  Contains `version` and `umaList`.
-
-* **Import progress** accepts a file in that format
-  Replaces existing `umalist` and reloads the app.
+  * `id`
+  * `title`
+  * `keys`: list of race keys that define the Crown set
 
 ---
 
 ## Customization
 
-* **Add a new Umamusume**
-  Use the dropdown and select **+ Add new**
+* **Add or edit races**
+  Update the `RACES` array in the script block. Keep `name`, `date`, `year`, `grade`, `distance`, and `track` fields consistent.
 
-* **Edit races**
-  Update `RACES_JUNIOR`, `RACES_CLASSIC`, `RACES_SENIOR`.
-  Keep `year`, `date`, `name`, `grade`, `distance`, `track`.
-  Race keys depend on the exact strings.
+* **Add or edit Crown Titles**
+  Update the `CROWNS` array. Use exact race keys from the `RACES` list.
 
-* **Add a crown title**
-  Add to `CROWNS` using exact race keys.
+* **Change default Umamusume list**
+  Edit `DEFAULT_UMA`. New names will appear after a fresh load or once you clear storage.
 
-* **Styling**
-  Tweak CSS variables at the top of the file.
+* **Recommended filter logic**
+  The **Recommended** view currently includes races where Track and Distance ranks are `S` or `A`. Modify `recommendedMatches` if you want different rules.
 
 ---
 
-## Troubleshooting
+## Styling
 
-* **Recommended is empty**
-  Check the selected Umamusume’s aptitudes.
-  Recommended only includes races where **both** track and distance are rank **S** or **A**.
-  Also check if the filter panel hides them by grade or year.
-
-* **Crown title highlights only some races**
-  The app uses exact keys. If you rename races or dates, update the `CROWNS` entries to match the keys in `RACES`.
-
-* **No photo shown**
-  You must pick an image file. It saves automatically after selection.
-
-* **Sorting does not look right**
-  Click **Year** to toggle direction. Default is Year ascending. Calendar view uses the same internal ordering.
+* The palette is defined on `:root` with CSS variables for background, panels, lines, text, accents, warnings, and row states.
+* Table headers are sticky. Rows use accent borders for Win, Loss, and Focus.
+* Layout uses responsive CSS grids.
+* Dialogs are native `<dialog>` elements with custom styling.
+* The skills editor uses a flex layout so the **+ Add skill** button never overlaps inputs.
 
 ---
 
-## Technical notes
+## Privacy and Security
 
-* **No dependencies**. Single HTML file with inline CSS and JS.
-* **Rendering model**. Declarative render driven by:
+* All data stays in the browser in `localStorage`.
+* No network calls.
+* Photos are saved as Data URLs inside the stored object.
+* Use **Export** to back up your data to a JSON file. Store it securely.
 
-  * `state` object for global view and sorting
-  * `umaList` in `localStorage` for persistent data
-* **Key functions**:
+---
 
-  * `matchesAptitudes` controls recommended logic
-  * `sortByYearThenCalendar` standardizes ordering
-  * `buildRecommendedBase` merges aptitude picks with manual picks
-  * `renderTable` and `renderCalendar` are exclusive per view
-* **Accessibility**:
+## Browser Support
 
-  * Table headers are clickable for sorting
-  * Dialogs are native `<dialog>` elements
+* Designed for modern desktop browsers with support for:
+
+  * `localStorage`
+  * `<dialog>`
+  * CSS Grid
+  * FileReader and Data URLs
+
+If your browser does not support `<dialog>`, the code falls back to opening the dialogs by setting the `open` attribute.
+
+---
+
+## Known Limitations
+
+* Race list is hardcoded. You must edit the script to add or rename races.
+* Recommended view does not consider Pace Aptitude.
+* No multi-device sync. Use Export and Import to move data.
+* No conflict resolution on Import. The imported file replaces the stored list.
+
+---
+
+## Changelog
+
+* **v0.36**
+
+  * Added Pace Aptitude section: Front runner, Pace chaser, Late surger, End closer.
+  * Fixed skills editor layout so the add button does not overlap inputs.
+  * Improved Crown Titles UI and focus highlighting.
+  * Export JSON now includes `version: 36`.
 
 ---
 
 ## License
-
-MIT. Use and modify as you like.
